@@ -1,12 +1,15 @@
 package com.teamtreehouse.blog.model;
 
+import com.github.slugify.Slugify;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class BlogEntry {
-
     private String title;
+    private String slug;
     private String content;
     private LocalDateTime date;
     List<Comment> comments;
@@ -17,27 +20,38 @@ public class BlogEntry {
         this.content = content;
         this.date = date;
         this.comments = new ArrayList<>();
+        try {
+            Slugify slugify = new Slugify();
+            slug = slugify.slugify(title);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    // Getters and Setters
+    // Getters
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public static LocalDateTime getDate() {
+        return date;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public String getSlug(){
+        return slug;
+    }
+
+    // Setters
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public void setDate(LocalDateTime date) {
