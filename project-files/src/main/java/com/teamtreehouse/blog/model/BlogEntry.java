@@ -37,7 +37,7 @@ public class BlogEntry {
         return content;
     }
 
-    public static LocalDateTime getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
