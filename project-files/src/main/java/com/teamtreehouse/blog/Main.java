@@ -54,7 +54,7 @@ public class Main {
             // Model
             Map<String, Object> model = new HashMap<>();
             model.put("entry", entry);
-            model.put("comment", entry.getComments());
+            model.put("comments", entry.getComments());
 
             // Render the template
             return new ModelAndView(model, "detail.hbs");
