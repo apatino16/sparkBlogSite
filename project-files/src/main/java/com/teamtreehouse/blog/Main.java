@@ -155,7 +155,6 @@ public class Main {
             return null;
         });
 
-
         // Route for comment posting
         post("/entries/:slug/comments", ((req, res) -> {
             String slug = req.params(":slug");
@@ -171,5 +170,14 @@ public class Main {
             res.redirect("/entries/" + slug); // Redirect to the detail page
             return null;
         }));
+
+        // Route for deleting entries
+        post("/entries/:slug/delete", (req, res) -> {
+            String slug = req.params(":slug");
+
+            dao.deleteEntryBySlug(slug); // Call the DAO to delete the entry
+            res.redirect("/"); // Redirect to the homepage after deletion
+            return null;
+        });
     }
 }

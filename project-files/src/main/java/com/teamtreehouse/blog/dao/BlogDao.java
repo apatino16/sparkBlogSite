@@ -13,4 +13,6 @@ public interface BlogDao {
 
     BlogEntry findEntryBySlug(String slug);
 
+    void deleteEntryBySlug(String slug);
+
 }

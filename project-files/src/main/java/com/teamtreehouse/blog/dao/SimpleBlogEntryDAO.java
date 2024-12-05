@@ -33,4 +33,11 @@ public class SimpleBlogEntryDAO implements BlogDao {
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
     }
+
+    // Delete entries
+    @Override
+    public void deleteEntryBySlug(String slug){
+        BlogEntry entry = findEntryBySlug(slug);
+        blogEntries.remove(entry); // Remove the entry from the list
+    }
 }

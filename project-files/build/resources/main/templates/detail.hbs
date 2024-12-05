@@ -16,6 +16,9 @@
                         <li class="tags">{{this}}</li>
                     {{/each}}
                 </ul>
+                <form method="post" action="/entries/{{entry.slug}}/delete" onsubmit="return confirm('Are you sure you want to delete this entry?');">
+                    <input type="submit" value="Delete Entry" class="button button-danger">
+                </form>
             </div>
         </div>
     </section>
