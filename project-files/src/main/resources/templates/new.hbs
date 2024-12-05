@@ -3,13 +3,18 @@
             <div class="container">
                 <div class="new-entry">
                     <h2>Publish New Entry</h2>
-                    <form>
+                    <form method="post" action="/entries/new">
+                        <!-- Title Input -->
                         <label for="title"> Title</label>
-                        <input type="text" name="title" id="title"><br>
+                        <input type="text" name="title" id="title" required><br>
+
+                        <!-- Content Textarea -->
                         <label for="entry">Entry</label>
-                        <textarea rows="5" name="entry" id="entry"></textarea>
+                        <textarea rows="5" name="content" id="content" required></textarea>
+
+                        <!-- Submit and Cancel Buttons -->
                         <input type="submit" value="Publish Entry" class="button">
-                        <a href="#" class="button button-secondary">Cancel</a>
+                        <a href="/" class="button button-secondary">Cancel</a>
                     </form>
                 </div>
             </div>

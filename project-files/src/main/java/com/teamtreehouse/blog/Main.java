@@ -76,13 +76,12 @@ public class Main {
             return new ModelAndView(model, "detail.hbs");
         }, new HandlebarsTemplateEngine());
 
-        // Route for add/ edit pages:
-        // Shows the add new entry form
-        get("/entries/new", (req, res) -> {
+        // Route for new entry page
+        get("/new", (req, res) -> {
             return new ModelAndView(null, "new.hbs");
         }, new HandlebarsTemplateEngine());
 
-    // Post
+    // POST Request
         // Route to handle Login Submission
         // Password validation: Submitting the correct password (admin) sets a cookie (user=admin) and redirects to /entries/new
         post("/password", (req, res) -> {
@@ -104,14 +103,35 @@ public class Main {
         post("/entries", (req, res) -> {
             String title = req.queryParams("title");
             String content = req.queryParams("content");
-            LocalDateTime date;
 
-            BlogEntry newEntry = new BlogEntry(title, content, date = LocalDateTime.now());
+            // Creates a new BlogEntry
+            BlogEntry newEntry = new BlogEntry(title, content, LocalDateTime.now());
             dao.addEntry(newEntry);
 
-            res.redirect("/"); // Redirect to the index page
+            // Redirect to the homepage after adding the entry
+            res.redirect("/");
             return null;
         });
+
+        // Handles Edit Submissions: process and updates the corresponding blog entry
+        post("/entries/:slug/edit", (req, res) -> {
+           String slug = req.params(":slug");
+           String newTitle = req.queryParams("title");
+           String newContent = req.queryParams("content");
+
+           // Find the existing blog entry by slug
+            BlogEntry entry = dao.findEntryBySlug(slug);
+
+            // Update the entry with the new title and content
+            entry.setTitle(newTitle);
+            entry.setContent(newContent);
+
+            // Redirect to the detail page of the edited entry
+            res.redirect("/entries/" + slug +"/edit");
+
+            return null;
+        });
+
 
         // Route for comment posting
         post("/entries/:slug/comments", ((req, res) -> {
