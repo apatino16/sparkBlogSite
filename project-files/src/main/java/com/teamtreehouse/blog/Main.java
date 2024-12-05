@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,6 +29,23 @@ public class Main {
         dao.addEntry(entry2);
         dao.addEntry(entry3);
         dao.addEntry(entry4);
+
+    // Before
+        // Middleware to enforce authentication: before accessing the add or edit page, check if the user cookie is present and valid
+        before("/entries/*", (req, res) -> {
+            String user = req.cookie("user");
+            if(!"admin".equals(user)){
+                res.redirect("/password"); // Redirect to login page if unauthenticated
+                halt();
+            }
+        });
+
+    // Get
+        // Password Page Route: this route renders the password page
+        get("/password", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            return new ModelAndView(model, "password.hbs");
+        }, new HandlebarsTemplateEngine());
 
         // Index Page Route: display all blog entries
         get("/", (req, res) -> {
@@ -65,6 +81,24 @@ public class Main {
         get("/entries/new", (req, res) -> {
             return new ModelAndView(null, "new.hbs");
         }, new HandlebarsTemplateEngine());
+
+    // Post
+        // Route to handle Login Submission
+        // Password validation: Submitting the correct password (admin) sets a cookie (user=admin) and redirects to /entries/new
+        post("/password", (req, res) -> {
+            String password = req.queryParams("password");
+
+            if ("admin".equals(password)){
+                // set cookie
+                res.cookie("user", "admin");
+                res.redirect("/entries/new"); // Redirect to the add entry page
+                return null;
+            } else {
+                //Redirect back to login page
+                res.redirect("/password");
+            }
+            return null;
+        });
 
         // Handles form submission for a new blog entry
         post("/entries", (req, res) -> {
