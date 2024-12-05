@@ -5,20 +5,25 @@ import com.github.slugify.Slugify;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BlogEntry {
     private String title;
     private String slug;
     private String content;
     private LocalDateTime date;
+    private Set<String> tags;
     List<Comment> comments;
+
 
     // Constructor
     public BlogEntry(String title, String content, LocalDateTime date) {
         this.title = title;
         this.content = content;
         this.date = date;
+        this.tags = new HashSet<>();
         this.comments = new ArrayList<>();
         try {
             Slugify slugify = new Slugify();
@@ -45,6 +50,14 @@ public class BlogEntry {
         return slug;
     }
 
+    public List<Comment> getComments(){
+        return comments;
+    }
+
+    public Set<String> getTags(){
+        return tags;
+    }
+
     // Setters
     public void setTitle(String title) {
         this.title = title;
@@ -58,13 +71,18 @@ public class BlogEntry {
         this.date = date;
     }
 
-
-    // Methods to manage comments
+    // Method to manage comments
     public void addComment(Comment comment) {
-       comments.add(comment);
+        comments.add(comment);
     }
 
-    public List<Comment> getComments(){
-        return comments;
+    // Methods for managing tags
+    public void addTag(String tag) {
+        tags.add(tag.toLowerCase());
     }
+
+    public void removeTag(String tag){
+        tags.remove(tag.toLowerCase());
+    }
+
 }

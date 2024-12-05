@@ -12,6 +12,10 @@
                         <label for="content">Entry</label>
                         <textarea rows="5" name="content" id="content" required>{{entry.content}}</textarea><br>
 
+                        <!-- Tags -->
+                        <label for="tags">Tags (comma-separated)</label>
+                        <input type="text" name="tags" id="tags" value="{{#each entry.tags}}{{this}},{{/each}}" placeholder="e.g., technology, vacation, plans">
+
                         <!-- Submit and Cancel Buttons -->
                         <input type="submit" value="Save Entry" class="button">
                         <a href="/entries/{{entry.slug}}" class="button button-secondary">Cancel</a>

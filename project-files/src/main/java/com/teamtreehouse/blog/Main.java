@@ -78,7 +78,8 @@ public class Main {
 
         // Route for new entry page
         get("/new", (req, res) -> {
-            return new ModelAndView(null, "new.hbs");
+            Map<String, Object> model = new HashMap<>();
+            return new ModelAndView(model, "new.hbs");
         }, new HandlebarsTemplateEngine());
 
     // POST Request
@@ -90,7 +91,7 @@ public class Main {
             if ("admin".equals(password)){
                 // set cookie
                 res.cookie("user", "admin");
-                res.redirect("/entries/new"); // Redirect to the add entry page
+                res.redirect("/new"); // Redirect to the add entry page
                 return null;
             } else {
                 //Redirect back to login page
@@ -100,12 +101,22 @@ public class Main {
         });
 
         // Handles form submission for a new blog entry
-        post("/entries", (req, res) -> {
+        post("/new", (req, res) -> {
             String title = req.queryParams("title");
             String content = req.queryParams("content");
+            String tagsInput = req.queryParams("tags");
 
             // Creates a new BlogEntry
             BlogEntry newEntry = new BlogEntry(title, content, LocalDateTime.now());
+
+            // Add tags if provided
+            if (tagsInput != null && !tagsInput.isEmpty()){
+                String[] tags = tagsInput.split(",");
+                for (String tag : tags){
+                    newEntry.addTag(tag.trim());
+                }
+            }
+
             dao.addEntry(newEntry);
 
             // Redirect to the homepage after adding the entry
@@ -118,6 +129,7 @@ public class Main {
            String slug = req.params(":slug");
            String newTitle = req.queryParams("title");
            String newContent = req.queryParams("content");
+            String tagsInput = req.queryParams("tags");
 
            // Find the existing blog entry by slug
             BlogEntry entry = dao.findEntryBySlug(slug);
@@ -126,8 +138,19 @@ public class Main {
             entry.setTitle(newTitle);
             entry.setContent(newContent);
 
+            // Update tags
+            entry.getTags().clear(); // Clear existing tags
+
+            // Add tags if provided
+            if (tagsInput != null && !tagsInput.isEmpty()){
+                String[] tags = tagsInput.split(",");
+                for (String tag : tags){
+                    entry.addTag(tag.trim());
+                }
+            }
+
             // Redirect to the detail page of the edited entry
-            res.redirect("/entries/" + slug +"/edit");
+            res.redirect("/entries/" + slug);
 
             return null;
         });

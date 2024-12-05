@@ -10,6 +10,12 @@
                         <p><a class="link" href="/entries/{{entry.slug}}/edit">Edit Entry</a></p>
                     </div>
                 </article>
+                <h3>Tags</h3>
+                <ul>
+                    {{#each entry.tags}}
+                        <li class="tags">{{this}}</li>
+                    {{/each}}
+                </ul>
             </div>
         </div>
     </section>
