@@ -83,6 +83,18 @@ public class Main {
             return new ModelAndView(model, "new.hbs");
         }, new HandlebarsTemplateEngine());
 
+        // Route to display the edit page
+        get("entries/:slug/edit", (req, res) -> {
+            String slug = req.params(":slug");
+
+            BlogEntry entry = dao.findEntryBySlug(slug);
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("entry", entry);
+            model.put("action", "/entries/" + slug + "/edit");
+            return new ModelAndView(model, "edit.hbs");
+            }, new HandlebarsTemplateEngine());
+
     // POST Request
         // Route to handle Login Submission
         // Password validation: Submitting the correct password (admin) sets a cookie (user=admin) and redirects to /entries/new
