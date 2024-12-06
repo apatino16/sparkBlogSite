@@ -33,7 +33,15 @@ public class Main {
 
     // Before
         // Middleware to enforce authentication: before accessing the add or edit page, check if the user cookie is present and valid
-        before("/entries/*", (req, res) -> {
+        before("/new", (req, res) -> {
+            String user = req.cookie("user");
+            if(!"admin".equals(user)){
+                res.redirect("/password"); // Redirect to login page if unauthenticated
+                halt();
+            }
+        });
+
+        before("/entries/:slug/edit", (req, res) -> {
             String user = req.cookie("user");
             if(!"admin".equals(user)){
                 res.redirect("/password"); // Redirect to login page if unauthenticated
