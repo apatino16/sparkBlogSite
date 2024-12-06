@@ -3,8 +3,11 @@ package com.teamtreehouse.blog.model;
 import com.github.slugify.Slugify;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
+import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -83,6 +86,12 @@ public class BlogEntry {
 
     public void removeTag(String tag){
         tags.remove(tag.toLowerCase());
+    }
+
+    // Time formatting helper method
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy 'at' hh:mm a");
+        return date.format(formatter);
     }
 
 }

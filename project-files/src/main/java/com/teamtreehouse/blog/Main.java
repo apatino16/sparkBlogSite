@@ -71,6 +71,7 @@ public class Main {
             // Model
             Map<String, Object> model = new HashMap<>();
             model.put("entry", entry);
+            model.put("formattedDate", entry.getFormattedDate());
             model.put("comments", entry.getComments());
 
             // Render the template

@@ -4,7 +4,7 @@
             <div class="entry-list single">
                 <article>
                     <h1>{{entry.title}}</h1>
-                    <time datetime="{{entry.date}}">{{entry.date}}</time>
+                    <time datetime="{{entry.date}}">{{formattedDate}}</time>
                     <div class="entry">
                         <p>{{entry.content}}</p>
                         <p><a class="link" href="/entries/{{entry.slug}}/edit">Edit Entry</a></p>
@@ -29,7 +29,7 @@
                 {{#each comments}}
                     <div class="comment">
                         <strong>{{author}}</strong>
-                        <time datetime="{{date}}">{{date}}</time>
+                        <time datetime="{{date}}">{{formattedDate}}</time>
                         <p>{{content}}</p>
                     </div>
                 {{/each}}
@@ -39,7 +39,7 @@
             <div class="new-comment">
                 <form method="post" action="/entries/{{entry.slug}}/comments">
                     <label for="name">Name</label>
-                    <input type="text" name="author" id="name" required><br>
+                    <input type="text" name="author" id="name"><br>
                     <label for="comment">Comment</label>
                     <textarea rows="5" name="content" id="comment" required></textarea>
                     <input type="submit" value="Post Comment" class="button">
