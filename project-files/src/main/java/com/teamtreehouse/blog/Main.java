@@ -95,6 +95,7 @@ public class Main {
                 return null;
             } else {
                 //Redirect back to login page
+                req.session().attribute("error", "Invalid password. Please try again.");
                 res.redirect("/password");
             }
             return null;
